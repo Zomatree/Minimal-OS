@@ -13,8 +13,7 @@ pub extern "C" fn _start() -> ! {
         color_code: vga::ColorCode::new(vga::Color::Yellow, vga::Color::Black),
         buffer: unsafe { &mut *(0xb8000 as *mut vga::Buffer) },
     };
-
-    panic!("error message here");
+    writer.writeln("peepee");
     loop {}
 }
 

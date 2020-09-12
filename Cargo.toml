@@ -10,6 +10,7 @@ edition = "2018"
 rlibc = "1.0.0"
 bootloader = "*"
 volatile = "0.2.6"
+pic8259_simple = "0.2.0"
 
 [profile.dev]
 panic = "abort"
