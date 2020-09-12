@@ -1,7 +1,7 @@
 #![no_std]
 #![no_main]
+use core::fmt::Write;
 use core::panic::PanicInfo;
-
 extern crate rlibc;
 mod vga;
 
@@ -14,12 +14,18 @@ pub extern "C" fn _start() -> ! {
         buffer: unsafe { &mut *(0xb8000 as *mut vga::Buffer) },
     };
 
-    writer.writeln("peepee\npeepee2");
-    writer.writeln("peepee\npeepee2");
+    panic!("error message here");
     loop {}
 }
 
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+    let mut writer = vga::Writer {
+        column_position: 0,
+        color_code: vga::ColorCode::new(vga::Color::Yellow, vga::Color::Black),
+        buffer: unsafe { &mut *(0xb8000 as *mut vga::Buffer) },
+    };
+    write!(writer, "{}", info).unwrap();
+
     loop {}
 }
