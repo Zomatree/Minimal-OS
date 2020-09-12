@@ -9,7 +9,7 @@ edition = "2018"
 [dependencies]
 rlibc = "1.0.0"
 bootloader = "*"
-
+volatile = "0.2.6"
 
 [profile.dev]
 panic = "abort"
