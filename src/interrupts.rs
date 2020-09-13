@@ -67,7 +67,10 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: &mut Interrup
     if let Ok(Some(key_event)) = keyboard.add_byte(scancode) {
         if let Some(key) = keyboard.process_keyevent(key_event) {
             match key {
-                DecodedKey::Unicode(character) => print!("{}", character),
+                DecodedKey::Unicode(character) => match character {
+                    '\n' => print!("\n>>> "),
+                    _ => print!("{}", character),
+                },
                 DecodedKey::RawKey(key) => print!("{:?}", key),
             }
         }

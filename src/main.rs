@@ -9,8 +9,7 @@ mod vga;
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     minimalos::init();
-
-    println!("peepee");
+    print!(">>> ");
     minimalos::hlt_loop();
 }
 
