@@ -11,11 +11,11 @@ pub extern "C" fn _start() -> ! {
     minimalos::init();
 
     println!("peepee");
-    loop {}
+    minimalos::hlt_loop();
 }
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    minimalos::hlt_loop();
 }
