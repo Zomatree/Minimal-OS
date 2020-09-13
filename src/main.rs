@@ -1,11 +1,14 @@
 #![no_std]
 #![no_main]
 
+extern crate alloc;
+extern crate rlibc;
+
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
-use minimalos::memory;
+use minimalos::{allocator, memory};
 use x86_64::{structures::paging::Page, VirtAddr};
-extern crate rlibc;
+
 mod vga;
 
 #[panic_handler]
@@ -13,8 +16,6 @@ fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
     minimalos::hlt_loop();
 }
-
-entry_point!(kernal_main);
 
 fn kernal_main(info: &'static BootInfo) -> ! {
     minimalos::init();
@@ -29,5 +30,9 @@ fn kernal_main(info: &'static BootInfo) -> ! {
     let page_ptr: *mut u64 = page.start_address().as_mut_ptr();
     unsafe { page_ptr.offset(400).write_volatile(0x_f021_f077_f065_f04e) };
 
+    allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
+
     minimalos::hlt_loop();
 }
+
+entry_point!(kernal_main);
